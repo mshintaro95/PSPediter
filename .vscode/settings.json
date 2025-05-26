@@ -1,0 +1,55 @@
+{
+  "editor.autoClosingBrackets": "never",
+  "editor.autoClosingQuotes": "never",
+  "editor.autoSurround": "never",
+  "editor.quickSuggestions": {
+    "comments": "off",
+    "strings": "off",
+    "other": "off"
+  },
+  "editor.suggestOnTriggerCharacters": false,
+  "editor.parameterHints.enabled": false,
+  "editor.hover.enabled": false,
+  "editor.formatOnType": false,
+  "editor.formatOnSave": false,
+  "editor.inlineSuggest.enabled": false,
+  "editor.renderWhitespace": "none",
+  "editor.bracketPairColorization.enabled": false,
+
+  "editor.tokenColorCustomizations": {
+  "textMateRules": [
+  {
+    "scope": [
+      "punctuation.separator",
+      "punctuation.terminator",
+      "punctuation.accessor",
+      "punctuation.definition",
+      "keyword", 
+      "storage",
+      "entity.name.type.class",
+      "variable",
+      "entity.name.function",
+      "support.function",
+      "constant.numeric",
+      "string",
+      "keyword.control",
+      "comment",
+      "storage.modifier",
+      "storage.type.primitive.java",
+      "storage.type.java",
+      "storage.type.generic.java",
+      "constant.language",
+      "constant.character.escape",
+      "storage.type.object.array.java",
+      "variable.language",
+      "storage.type.annotation.java",
+      "invalid"
+    ],
+    "settings": {
+      "foreground": "#D4D4D4"
+    }
+  }
+]
+}
+
+}
