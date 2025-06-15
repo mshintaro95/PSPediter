@@ -12,11 +12,11 @@ public class RegressionResultPrinter {
         double yk = Double.parseDouble(args[4]);
 
         System.out.println(
-            "b_0 = " + b0 + "\n" +
-            "b_1 = " + b1 + "\n" +
-            "r_xy = " + r_xy + "\n" +
-            "r2 = " + r2 + "\n" +
-            "y_k = " + yk
+            "VS = " + b0 + "\n" +
+            "S = " + b1 + "\n" +
+            "M = " + r_xy + "\n" +
+            "L = " + r2 + "\n" +
+            "VL = " + yk
         );
     }
 }
