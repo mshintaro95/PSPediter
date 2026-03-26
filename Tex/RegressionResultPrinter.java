@@ -1,9 +1,9 @@
 public class RegressionResultPrinter {
     public static void main(String[] args) {
         System.out.println(
-            "積分値(1.1, 9) = 0.35006\n" +
-            "積分値(1.1812, 10) = 0.36757\n" +
-            "積分値(2.750, 30) = 0.49500\n"
+            "積分区間上限値(0.20, 6) = 0.55338\n" +
+            "積分区間上限値(0.45, 15) = 1.75305\n" +
+            "積分区間上限値(0.495, 4) = 4.60409\n"
         );
     }
 }
