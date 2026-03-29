@@ -1,9 +1,15 @@
 public class RegressionResultPrinter {
     public static void main(String[] args) {
         System.out.println(
-            "積分区間上限値(0.20, 6) = 0.55338\n" +
-            "積分区間上限値(0.45, 15) = 1.75305\n" +
-            "積分区間上限値(0.495, 4) = 4.60409\n"
+            "rxy = 0.55902\n" +
+            "r^2 = 0.3125\n" +
+            "tail area = 19.2\n" +
+            "B0 = -141.1716\n" +
+            "B1 = 7.0559\n" +
+            "yk = 194.69\n" +
+            "Range = 240.66\n" +
+            "UPI = 435.35\n" +
+            "LPI = -45.97"
         );
     }
 }
