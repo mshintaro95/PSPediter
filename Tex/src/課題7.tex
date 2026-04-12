@@ -101,8 +101,8 @@
         \end{figure}
         
         \item 実行時の入力：コマンドラインに以下の形式で入力\\
-        　java プログラム名 実数値入力ファイル名
-        \item 実行時入力例：java Program7 data\_program7.csv\\
+        　java プログラム名 実数値入力ファイル名 見積もり値
+        \item 実行時入力例：java Program7 data\_program7.csv 386\\
                 
     \end{itemize}
 
@@ -111,7 +111,7 @@
     \begin{itemize}
         \item 出力方法：コマンドライン出力
         \item 出力する値：$r_{x,y},r^2,tail\ area,\beta_0,\beta_1,y_k,Range,UPI(70\%),LPI(70\%)$
-        \item 精度：有効桁通りに表示する。ただし有効桁が11桁以上ある場合、11桁目を四捨五入し、10桁で表示する。
+        \item 精度：有効桁通りに表示する。ただし有効桁が11桁以上ある場合、11桁目を四捨五入し、10桁で表示する。なお、tail areaの値については、値が0.0001より小さい場合に限り上記の表示規則に加えて指数表示を用いる。
         \item 出力例：図\ref{kitaiti}のように出力する値をそれぞれ改行して表示する。
         
         \begin{figure}[H]
