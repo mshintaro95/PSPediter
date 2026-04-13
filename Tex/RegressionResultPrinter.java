@@ -1,15 +1,15 @@
 public class RegressionResultPrinter {
     public static void main(String[] args) {
         System.out.println(
-            "rxy = 0.933306898\n" +
-            "r^2 = 0.871061766\n" +
-            "tail area = 7.98203e-05\n" +
-            "B0 = -4.038881575\n" +
-            "B1 = 0.16812665\n" +
-            "yk = 60.85800528\n" +
-            "Range = 27.55764748\n" +
-            "UPI = 88.41565276\n" +
-            "LPI = 33.3003578"
+            "rxy = 0.6401\n" +
+            "r^2 = 0.4098\n" +
+            "tail area = 0.3598\n" +
+            "B0 = 85.8488\n" +
+            "B1 = 5.1607\n" +
+            "yk = 331.5\n" +
+            "Range = 200.24\n" +
+            "UPI = 531.73\n" +
+            "LPI = 131.26"
         );
     }
 }

@@ -1,9 +1,9 @@
 /******************************************************
-/*プログラム課題: 5-Calculator
+/*プログラム課題: 7-Program7
 /*名前: 三留 慎太郎
-/*日付: 20250713
-/*プログラムの説明:シンプソンの公式を用いてt分布関数を数値積分する
-/*クラスの説明：シンプソンの公式をを用いて対応する自由度に対応するt分布関数を0~topEndXまでの範囲で積分計算する
+/*日付: 20260412
+/*プログラムの説明:過去のデータから見積もり値に対する予測値と70%の予測区間を計算する。
+/*クラスの説明：プログラムに必要な計算を担うメソッドを定義する。
 /********************************************************/ 
 
 public class Calculator{
@@ -67,6 +67,39 @@ public class Calculator{
         return integral;
     }
 
+    public static double findUpperLimit(double p, int dof){
+        double trialUpperLimit = 1.0;//試行値
+        double ToleranceE = 0.000000001;//許容誤差
+        double d = 1.0;//試行値の変動幅
+        boolean flag = true;//誤差フラグ
+
+        double integral = calcSimpsonIntegral(trialUpperLimit, dof);
+
+        while(Math.abs(p - integral) >= ToleranceE){
+            if(trialUpperLimit == 0.0){//0の時
+                trialUpperLimit = 0.00001;//正の極小値代入
+            }
+
+            if(p - integral > 0.0){
+                if(flag == false){
+                    d = d / 2;
+                }
+                trialUpperLimit += d;
+                flag = true;
+            } else if(p - integral < 0.0){
+                if(flag == true){
+                    d = d / 2;
+                }
+                trialUpperLimit -= d;
+                flag = false;
+            }
+            integral = calcSimpsonIntegral(trialUpperLimit, dof);
+        }
+
+        return trialUpperLimit;
+    }
+
+
     public static double[] calcAverage(LinkedListManager<Pair<Double, Double>> linkedList){
         double sum1 = 0.0;//データの合計1
         double sum2 = 0.0;//データの合計2
@@ -87,16 +120,36 @@ public class Calculator{
     public static double calcStandardDeviation(LinkedListManager<Pair<Double, Double>> linkedList, int dataNum){
         double sum = 0.0;//データの合計
         double sigma;//標準偏差を格納する
-        double Beta0 = calcBeta1(linkedList);
-        double Beta1 = calcBeta0(linkedList);
+        double Beta1 = calcBeta1(linkedList);
+        double Beta0 = calcBeta0(linkedList);
 
         LinkedListNode<Pair<Double, Double>> current_node = linkedList.head;
         while(current_node != null){//リンクリストのすべての要素を処理したか？
-            sum += Math.pow((current_node.data.firstData - Beta0 - Beta1 * current_node.data.secondData), 2);
+            sum += Math.pow((current_node.data.secondData - Beta0 - (Beta1 * current_node.data.firstData)), 2);
             current_node = linkedList.nextNode(current_node);
         }
-        sigma = Math.sqrt(sum / (dataNum-1));
+        sigma = Math.sqrt(sum / (dataNum-2));
+
         return sigma;
+    }
+
+    public static double[] calcStandardDeviations(LinkedListManager<Pair<Double, Double>> linkedList){
+        double sum1 = 0.0;//データの合計1
+        double sum2 = 0.0;//データの合計2
+        double[] averages = calcAverage(linkedList);//データ対それぞれの平均
+        double[] sigmas = {0.0, 0.0};//標準偏差を格納する
+        int count = 0;//データの個数をカウント
+
+        LinkedListNode<Pair<Double, Double>> current_node = linkedList.head;
+        while(current_node != null){//リンクリストのすべての要素を処理したか？
+            count++;
+            sum1 += Math.pow((current_node.data.firstData - averages[0]), 2);
+            sum2 += Math.pow((current_node.data.secondData - averages[1]), 2);
+            current_node = linkedList.nextNode(current_node);
+        }
+        sigmas[0] = Math.sqrt(sum1 / (count-1));
+        sigmas[1] = Math.sqrt(sum2 / (count-1));
+        return sigmas;
     }
 
     public static double calcBeta1(LinkedListManager<Pair<Double, Double>> linkedList){
@@ -125,7 +178,7 @@ public class Calculator{
 
     public static double calcBeta0(LinkedListManager<Pair<Double, Double>> linkedList){
         double[] averages = calcAverage(linkedList);//データ対それぞれの平均
-        
+
         double Beta0 = averages[1] - (calcBeta1(linkedList) * averages[0]);
 
         return Beta0;
@@ -133,24 +186,25 @@ public class Calculator{
 
     public static double calcTailArea(double rxy, int dataNum){
         double upperLimitX = (Math.abs(rxy) * Math.sqrt(dataNum - 2)) / Math.sqrt(1 - (rxy * rxy));
-        double p = calcSimpsonIntegral(upperLimitX, dataNum - 2);
+        double p = calcSimpsonIntegral(upperLimitX, dataNum - 2);//積分
 
         double tailArea = 1 - 2 * p;
         return tailArea;
     }
 
     public static double calcRange(LinkedListManager<Pair<Double, Double>>linkedList, int dataNum, double xk){
-        double tFunctionValue = tDistributionFunction(dataNum - 2, 0.35);
-        double sigmaValue = calcStandardDeviation(linkedList, dataNum);
-        double[] averages = calcAverage(linkedList);
+        double tFunctionValue = findUpperLimit(0.35,dataNum - 2);//t関数の積分値がpになる上限値を計算
+        double sigmaValue = calcStandardDeviation(linkedList, dataNum);//標準偏差計算
+        double[] averages = calcAverage(linkedList);//平均値取得
         double denominator = 0.0;
 
         LinkedListNode<Pair<Double, Double>> current_node = linkedList.head;
         while(current_node != null){//リンクリストのすべての要素を処理したか？
-            denominator += Math.pow((current_node.data.secondData - averages[0]), 2);
+            denominator += Math.pow((current_node.data.firstData - averages[0]), 2);
+            current_node = linkedList.nextNode(current_node);
         }
-        double Range = tFunctionValue * sigmaValue * Math.sqrt(1 + (1 / dataNum) + ((xk - averages[0]) / denominator));
 
+        double Range = tFunctionValue * sigmaValue * Math.sqrt(1.0 + (1.0 / dataNum) + (Math.pow(xk - averages[0], 2) / denominator));
 
         return Range;
     }
